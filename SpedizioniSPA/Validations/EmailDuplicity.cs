@@ -43,10 +43,13 @@ namespace SpedizioniSPA.Validations
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Email", email);
-                connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                try
                 {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+
                     if (reader.Read())
                     {
                         return Convert.ToBoolean(reader["trovato"]);
@@ -56,6 +59,19 @@ namespace SpedizioniSPA.Validations
                         return false;
                     }
                 }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Errore" + ex);
+                    return false;
+                }
+
+                finally 
+                {
+                connection.Close();
+                }
+
+                
+                
             }
 
             

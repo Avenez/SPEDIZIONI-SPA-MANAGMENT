@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using static SpedizioniSPA.Validations.PecValidation;
 using static SpedizioniSPA.Validations.PecDuplicity;
 using static SpedizioniSPA.Validations.PIVADuplicity;
@@ -32,7 +33,7 @@ namespace SpedizioniSPA.Models
         public string Pec { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Il campo Indirizzo deve essere lungo minimo 2 caratteri e massimo 50 caratteri.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Il campo Indirizzo deve essere lungo minimo 5 caratteri e massimo 50 caratteri.")]
         [Display(Name = "Indirizzo")]
         public string Indirizzo { get; set; }
 
@@ -42,6 +43,8 @@ namespace SpedizioniSPA.Models
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Il campo PIVA deve essere di 11 caratteri.")]
         [Display(Name = "Partita Iva")]
         public string PartitaIVA { get; set; }
+
+        public string fullIdCliente => $"{Nome} {Indirizzo} {PartitaIVA}";
 
         // Costruttore vuoto
         public Azienda()
@@ -75,11 +78,13 @@ namespace SpedizioniSPA.Models
 
                 cmd.ExecuteNonQuery();
 
+                System.Diagnostics.Debug.WriteLine("Inserimento avvenuto con Successo");
                 Console.WriteLine("Inserimento avvenuto con Successo");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                System.Diagnostics.Debug.WriteLine("Erroe" + ex);
             }
             finally
             {
@@ -87,6 +92,46 @@ namespace SpedizioniSPA.Models
             }
         }
 
+
+        public static List<Azienda> GetListaAziende()
+        {
+            List<Azienda> listaAziende = new List<Azienda>();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT IdCliente, Nome, Pec, Indirizzo, PIVA FROM UAzienda", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int idCliente = Convert.ToInt32(reader["IdCliente"]);
+                    string nome = reader["Nome"].ToString();
+                    string pec = reader["Pec"].ToString();
+                    string indirizzo = reader["Indirizzo"].ToString();
+                    string partitaIVA = reader["PIVA"].ToString();
+
+                    Azienda azienda = new Azienda(idCliente, nome, pec, indirizzo, partitaIVA);
+                    listaAziende.Add(azienda);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                System.Diagnostics.Debug.WriteLine("Errore: " + ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return listaAziende;
+        }
 
     }
 

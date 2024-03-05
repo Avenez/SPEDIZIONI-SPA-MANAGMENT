@@ -12,7 +12,7 @@ namespace SpedizioniSPA.Validations
 
         protected override ValidationResult IsValid(object Pec, ValidationContext validationContext)
         {
-            System.Diagnostics.Debug.WriteLine("Email: " + Pec);
+            System.Diagnostics.Debug.WriteLine("Pec: " + Pec);
 
             string pecToCheck = Pec.ToString();
 
@@ -22,7 +22,7 @@ namespace SpedizioniSPA.Validations
             }
             else
             {
-                return new ValidationResult("L'email inserita non è valida");
+                return new ValidationResult("La pec inserita non è valida");
             }
 
 

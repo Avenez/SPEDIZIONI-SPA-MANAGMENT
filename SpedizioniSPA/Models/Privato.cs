@@ -11,7 +11,7 @@ using static SpedizioniSPA.Validations.TelDuplicity;
 
 namespace SpedizioniSPA.Models
 {
-    
+
 
     public class Privato
     {
@@ -56,6 +56,9 @@ namespace SpedizioniSPA.Models
         [Display(Name = "Numero di Telefono")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Il campo Numero di Telefono deve contenere solo numeri.")]
         public string Telefono { get; set; }
+
+
+        public string fullIdCliente => $"{Nome} {Cognome} {CF} {Indirizzo}";
 
         // Costruttore vuoto
         public Privato()
@@ -107,7 +110,49 @@ namespace SpedizioniSPA.Models
                 conn.Close();
             }
         }
+
+
+        // Metodo per creare e restituire una lista di oggetti Privato
+        public static List<Privato> GetListaPrivati()
+        {
+            List<Privato> listaPrivati = new List<Privato>();
+
+            // Esempio di query per estrarre dati dal database e popolare la lista
+            string queryString = "SELECT * FROM UPrivato";
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Costruire un oggetto Privato da ogni riga del database
+                    Privato privato = new Privato();
+                    privato.IdCliente = Convert.ToInt32(reader["IdCliente"]);
+                    privato.Email = reader["Email"].ToString();
+                    privato.Nome = reader["Nome"].ToString();
+                    privato.Cognome = reader["Cognome"].ToString();
+                    privato.CF = reader["CF"].ToString();
+                    privato.Indirizzo = reader["Indirizzo"].ToString();
+                    privato.Regione = reader["Regione"].ToString();
+                    privato.Telefono = reader["Telefono"].ToString();
+
+                    listaPrivati.Add(privato);
+                }
+                reader.Close();
+            }
+
+            return listaPrivati;
+        }
+
+
+
     }
+
+
+
 
 
 

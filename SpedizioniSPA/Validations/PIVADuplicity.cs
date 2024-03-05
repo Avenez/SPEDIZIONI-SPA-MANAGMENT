@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpedizioniSPA.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
@@ -12,18 +13,22 @@ namespace SpedizioniSPA.Validations
     public class PIVADuplicity : ValidationAttribute
     {
 
+
+
         protected override ValidationResult IsValid(object PIVA, ValidationContext validationContext)
         {
-            System.Diagnostics.Debug.WriteLine("Email: " + PIVA);
+            System.Diagnostics.Debug.WriteLine("PIVA: " + PIVA);
 
             string pIvaToCheck = PIVA.ToString();
 
-            if (!ControllaPIva(pIvaToCheck))
+            if (ControllaPIva(pIvaToCheck) == false)
             {
+                System.Diagnostics.Debug.WriteLine("Trovato False: " + ControllaPIva(pIvaToCheck));
                 return ValidationResult.Success;
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("Trovato True: " + ControllaPIva(pIvaToCheck));
                 return new ValidationResult("La PIVA inserita è già in uso");
             }
 
@@ -47,14 +52,19 @@ namespace SpedizioniSPA.Validations
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
+                    bool trovato = false;
+
                     if (reader.Read())
                     {
-                        return Convert.ToBoolean(reader["trovato"]);
+                        trovato = Convert.ToBoolean(reader["trovato"]);
+                        return trovato;
+                        
                     }
+                    
                 }
             }
 
-            return false; // Se non si trovano righe o c'è un errore durante l'operazione
+            return false;
         }
 
     }

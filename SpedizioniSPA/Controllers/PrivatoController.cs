@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using SpedizioniSPA.Models;
@@ -24,13 +25,24 @@ namespace SpedizioniSPA.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreatePrivato(Privato P)
         {
 
             try 
             {
-                Privato.InserisciNuovoPrivato(P);
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    Privato.InserisciNuovoPrivato(P);
+                    Session["Inserimento"] = true;
+                    Session["Messaggio"] = "Inserimento Privato avvenuto con Successo";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return View(P);
+                }
+                
             }
             catch (Exception ex)
             { 

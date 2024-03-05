@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Backoffice";
+    var feedBack = Session["Messaggio"];
+    bool inserimento = (bool)TempData["Inserimento"];
+}
+
+<div class="container">
+    <div id="alert" class="alert alert-warning @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
+        @feedBack
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+
+                <div class="col p-0">
+                    <div class=" slide-in-right cardHover p-4 d-flex flex-column" style="height: 600px; width: 350px; background-image: url(/Images/Azienda2.jpg); background-size: cover; background-repeat: no-repeat;">
+                        <h2 class="display-6">Aziende</h2>
+                        @Html.ActionLink("Aggiungi", "CreateAzienda", "Azienda", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="  slide-in-right-1 cardHover p-4 d-flex flex-column" style="height: 600px; width: 350px; background-image: url(/Images/privato.jpg); background-size: cover; background-repeat: no-repeat;">
+                        <h2 class="display-6">Privati</h2>
+                        @Html.ActionLink("Aggiungi", "CreatePrivato", "Privato", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="cardHover  slide-in-right-2 p-4 d-flex flex-column" style="height: 600px; width: 350px; background-image: url(/Images/spedizione.jpg); background-size: cover; background-repeat: no-repeat;">
+                        <h2 class="display-6">Spedizioni</h2>
+                        @Html.ActionLink("Aggiungi", "CreateSpedizione", "Spedizione", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
+                        @Html.ActionLink("Aggiorna Spedizioni", "EditSpedizioni", "Home", new { area = "" }, new { @class = "btn btn-warning mt-3" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Verifica se c'è un feedback da mostrare e mostra l'alert se presente
+    var alertDiv = document.getElementById('alert');
+    if (alertDiv.classList.contains('d-block')) {
+        setTimeout(function () {
+            alertDiv.classList.remove('d-none');
+            alertDiv.classList.add('d-none'); // Rimuovi la classe per nascondere l'alert dopo 4 secondi
+        }, 4000);
+    }
+</script>
+

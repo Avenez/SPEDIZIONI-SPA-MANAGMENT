@@ -16,10 +16,6 @@ namespace SpedizioniSPA.Models
         public int IdSpedizione { get; set; }
 
         [Required]
-        [Display(Name = "Stato Spedizione")]
-        public string Stato { get; set; }
-
-        [Required]
         [Display(Name = "Data Spedizione")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -39,7 +35,7 @@ namespace SpedizioniSPA.Models
         [Display(Name = "Data Consegna")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? DataConsegna { get; set; }
+        public DateTime DataConsegna { get; set; }
 
         [Required]
         [Display(Name = "Città di Destinazione")]
@@ -57,7 +53,7 @@ namespace SpedizioniSPA.Models
         }
 
         // Costruttore con tutti i campi
-        public Spedizione(int idSpedizione, DateTime dataSpedizione, decimal peso, decimal costo, DateTime? dataConsegna, string cittaDestinazione, int idDestinatario)
+        public Spedizione(int idSpedizione, DateTime dataSpedizione, decimal peso, decimal costo, DateTime dataConsegna, string cittaDestinazione, int idDestinatario)
         {
             IdSpedizione = idSpedizione;
             DataSpedizione = dataSpedizione;
@@ -69,7 +65,7 @@ namespace SpedizioniSPA.Models
         }
 
 
-        public static void InserisciNuovaSpedizione(Spedizione nuovaSpedizione)
+        public static void InserisciNuovaSpedizione(Spedizione S)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
             SqlConnection conn = new SqlConnection(connectionString);
@@ -77,13 +73,14 @@ namespace SpedizioniSPA.Models
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Spedizione (dataSpedizione, peso, costo, dataConsegna, cittaDestinazione, idDestinatario) VALUES (@DataSpedizione, @Peso, @Costo, @DataConsegna, @CittaDestinazione, @IdDestinatario)", conn);
-                cmd.Parameters.AddWithValue("@DataSpedizione", nuovaSpedizione.DataSpedizione);
-                cmd.Parameters.AddWithValue("@Peso", nuovaSpedizione.Peso);
-                cmd.Parameters.AddWithValue("@Costo", nuovaSpedizione.Costo);
-                cmd.Parameters.AddWithValue("@DataConsegna", (object)nuovaSpedizione.DataConsegna ?? DBNull.Value); // Handling possible null value for DataConsegna
-                cmd.Parameters.AddWithValue("@CittaDestinazione", nuovaSpedizione.CittaDestinazione);
-                cmd.Parameters.AddWithValue("@IdDestinatario", nuovaSpedizione.IdDestinatario);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Spedizione2 (dataSpedizione, peso, costo, dataConsegna, cittaDestinazione, idDestinatario) VALUES (@dataSpedizione, @peso, @costo, @dataConsegna, @cittaDestinazione, @idDestinatario)", conn);
+                
+                cmd.Parameters.AddWithValue("@dataSpedizione", S.DataSpedizione);
+                cmd.Parameters.AddWithValue("@peso", S.Peso.ToString());
+                cmd.Parameters.AddWithValue("@costo", S.Costo.ToString());
+                cmd.Parameters.AddWithValue("@dataConsegna", S.DataConsegna);
+                cmd.Parameters.AddWithValue("@cittaDestinazione", S.CittaDestinazione);
+                cmd.Parameters.AddWithValue("@idDestinatario", S.IdDestinatario.ToString());
 
                 cmd.ExecuteNonQuery();
 
@@ -97,6 +94,47 @@ namespace SpedizioniSPA.Models
             {
                 conn.Close();
             }
+        }
+
+        public static List<Spedizione> GetListaSpedizioni()
+        {
+            List<Spedizione> listaSpedizioni = new List<Spedizione>();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Spedizione2", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Spedizione spedizione = new Spedizione();
+                    spedizione.IdSpedizione = (int)reader["idSpedizione"];
+                    spedizione.DataSpedizione = (DateTime)reader["dataSpedizione"];
+                    spedizione.Peso = (decimal)reader["peso"];
+                    spedizione.Costo = (decimal)reader["costo"];
+                    spedizione.DataConsegna = (DateTime)reader["dataConsegna"];
+                    spedizione.CittaDestinazione = (string)reader["cittaDestinazione"];
+                    spedizione.IdDestinatario = (int)reader["idDestinatario"];
+
+                    listaSpedizioni.Add(spedizione);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return listaSpedizioni;
         }
 
     }

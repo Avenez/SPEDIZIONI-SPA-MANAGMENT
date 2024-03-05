@@ -122,13 +122,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AziendaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PrivatoController.cs" />
+    <Compile Include="Controllers\SpedizioneController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Aggiornamento.cs" />
+    <Compile Include="Models\authorizations.cs" />
     <Compile Include="Models\Azienda.cs" />
     <Compile Include="Models\Privato.cs" />
     <Compile Include="Models\Spedizione.cs" />
+    <Compile Include="Models\Utente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validations\EmailDuplicity.cs" />
     <Compile Include="Validations\PecDuplicity.cs" />
@@ -156,6 +161,13 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\ABOUT.jpg" />
+    <Content Include="Images\azienda.jpg" />
+    <Content Include="Images\Azienda2.jpg" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\cursorseingle.png" />
+    <Content Include="Images\privato.jpg" />
+    <Content Include="Images\spedizione.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -188,10 +200,14 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Privato\CreatePrivato.cshtml" />
+    <Content Include="Views\Azienda\CreateAzienda.cshtml" />
+    <Content Include="Views\Home\Backoffice.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Spedizione\CreateSpedizione.cshtml" />
+    <Content Include="Views\Home\EditSpedizioni.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Azienda\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

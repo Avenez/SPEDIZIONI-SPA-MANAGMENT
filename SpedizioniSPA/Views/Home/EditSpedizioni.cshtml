@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "EditSpedizioni";
+    List<SpedizioniSPA.Models.Spedizione> ListaSpedizioni = ViewBag.ListSpedizioni;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="row mt-2 mb-3  fw-bold text-white p-3 position-sticky">
+                <div class="col ">Id Spedizione</div>
+                <div class="col">Data Spedizione</div>
+                <div class="col">Peso</div>
+                <div class="col">Costo</div>
+                <div class="col">Data Consegna</div>
+                <div class="col">Destinazione</div>
+                <div class="col">Controlli</div>
+            </div>
+
+            @foreach(var item in ListaSpedizioni)
+            { 
+
+            <div class="cardHover">
+                <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
+                    <div class="col ">@item.IdSpedizione</div>
+                    <div class="col">@item.DataSpedizione.ToShortDateString()</div>
+                    <div class="col">@item.Peso kg</div>
+                    <div class="col">@item.Costo €</div>
+                    <div class="col">@item.DataConsegna.ToShortDateString()</div>
+                    <div class="col">@item.CittaDestinazione</div>
+                    <div class="col">@Html.ActionLink("Aggiorna","EditStato","Stedizioni", new { area = "" } , new { @class = "btn btn-warning" }  )</div>
+                </div>
+            </div>
+            
+            }
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
