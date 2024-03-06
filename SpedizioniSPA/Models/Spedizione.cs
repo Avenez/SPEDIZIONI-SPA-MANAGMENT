@@ -194,7 +194,7 @@ namespace SpedizioniSPA.Models
                 try
                 {
                     conn.Open();
-                    string query = "SELECT COUNT(*) AS NonConsegnate FROM Spedizione2 WHERE dataConsegna <= @CurrentDate";
+                    string query = "SELECT COUNT(*) AS NonConsegnate FROM Spedizione2 WHERE dataConsegna >= @CurrentDate";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@CurrentDate", DateTime.Now.ToShortDateString());
                     SqlDataReader reader = cmd.ExecuteReader();

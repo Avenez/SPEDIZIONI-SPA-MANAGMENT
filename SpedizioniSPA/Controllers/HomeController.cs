@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace SpedizioniSPA.Controllers
 {
@@ -107,23 +108,80 @@ namespace SpedizioniSPA.Controllers
         }
 
 
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Statistics() 
+        //{
+
+        //    int consegneNonEffettuate = Spedizione.GetNumSpedNonConsegnate();
+        //    ViewBag.consegneNonEffettuate = consegneNonEffettuate;
+
+        //    List<Tuple<string, int>> spedizioniPerCittaList = Spedizione.GetSpedizioniPerCitta();
+        //    ViewBag.SpedizioniPerCittaList = spedizioniPerCittaList;
+
+        //    List<Spedizione>SpedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
+        //    ViewBag.SpedizioniInConsegna = SpedizioniInConsegna;
+
+
+
+        //    return View();
+        //}
+
+
         [Authorize(Roles = "Admin")]
-        public ActionResult Statistics() 
+        [HttpGet]
+        public ActionResult Statistics()
         {
 
+            return View();
+
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult Statistics2()
+        {
+            //List<Spedizione> spedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
+
+
+
+            //return Json(spedizioniInConsegna, JsonRequestBehavior.AllowGet);
+
             int consegneNonEffettuate = Spedizione.GetNumSpedNonConsegnate();
-            ViewBag.consegneNonEffettuate = consegneNonEffettuate;
 
             List<Tuple<string, int>> spedizioniPerCittaList = Spedizione.GetSpedizioniPerCitta();
-            ViewBag.SpedizioniPerCittaList = spedizioniPerCittaList;
 
-            List<Spedizione>SpedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
-            ViewBag.SpedizioniInConsegna = SpedizioniInConsegna;
+            List<Spedizione> spedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
 
+            var jsonData = new
+            {
+                consegneNonEffettuate = consegneNonEffettuate,
+                spedizioniPerCittaList = spedizioniPerCittaList,
+                spedizioniInConsegna = spedizioniInConsegna
+            };
 
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
 
-            return View();
         }
+
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Statistics()
+        //{
+        //    int consegneNonEffettuate = Spedizione.GetNumSpedNonConsegnate();
+
+        //    List<Tuple<string, int>> spedizioniPerCittaList = Spedizione.GetSpedizioniPerCitta();
+
+        //    List<Spedizione> spedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
+
+        //    var jsonData = new
+        //    {
+        //        consegneNonEffettuate = consegneNonEffettuate,
+        //        spedizioniPerCittaList = spedizioniPerCittaList,
+        //        spedizioniInConsegna = spedizioniInConsegna
+        //    };
+
+        //    return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //}
 
     }
 }
