@@ -25,7 +25,7 @@ namespace SpedizioniSPA.Controllers
             return View();
         }
 
-
+        //Inserisco una nuvo azienda e invio un feed all'utente
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateAzienda(Azienda A)

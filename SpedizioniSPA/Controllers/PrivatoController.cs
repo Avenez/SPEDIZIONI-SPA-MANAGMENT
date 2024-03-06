@@ -24,6 +24,7 @@ namespace SpedizioniSPA.Controllers
         }
 
 
+        //Inserisco una nuovo Privato e invio un feed all'utente
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrivato(Privato P)

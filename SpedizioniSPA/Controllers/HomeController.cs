@@ -68,7 +68,7 @@ namespace SpedizioniSPA.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult CercaSpedizione()
         {
@@ -79,39 +79,33 @@ namespace SpedizioniSPA.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult CercaSpedizione(int idSpedizione)
         {
             if (idSpedizione != 0)
             {
-                // Effettua la ricerca della spedizione
                 List<Aggiornamenti> ListAggiornamentiSrc = Aggiornamenti.GetListaAggiornamenti(idSpedizione);
-
-                // Controlla se sono stati trovati aggiornamenti per la spedizione
                 if (ListAggiornamentiSrc.Count > 0)
                 {
-                    // Se sono stati trovati aggiornamenti, memorizzali nella ViewBag per visualizzarli nella vista
                     ViewBag.ListAggiornamentiSrc = ListAggiornamentiSrc;
                 }
                 else
                 {
-                    // Se non sono stati trovati aggiornamenti, visualizza un messaggio di avviso
                     ViewBag.ErrorMessage = "Nessun aggiornamento trovato per la spedizione con ID: " + idSpedizione;
                 }
 
-                // Memorizza l'ID della spedizione nella TempData per eventuali utilizzi futuri
                 TempData["SrcData"] = idSpedizione;
             }
             else
             {
-                // Se l'ID della spedizione è 0, mostra un messaggio di errore
+
                 ViewBag.ErrorMessage = "Inserisci un ID di spedizione valido";
             }
 
-            // Ritorna la vista
             return View();
         }
+
 
         [Authorize(Roles = "Admin")]
         public ActionResult Statistics() 

@@ -15,6 +15,8 @@ namespace SpedizioniSPA.Controllers
             return View();
         }
 
+
+        //Recupero la lista degli aggiornamenti in funzione dell'idSpedizione
         [HttpGet]
         public ActionResult EditAggiornamento(int idSpedizione)
         {
@@ -32,6 +34,7 @@ namespace SpedizioniSPA.Controllers
         return View();
         }
 
+        //Inserisco un nuvo aggiornamento passando l'oggetto e l'idSpedizione
         [HttpPost]
         public ActionResult EditAggiornamento(Aggiornamenti A, int idSpedizione)
         {

@@ -62,6 +62,8 @@ namespace SpedizioniSPA.Models
         }
 
 
+
+        //Metodo per l'inserimento di una nuova Azienda nel DB
         public static void InserisciNuovaAzienda(Azienda nuovaAzienda)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
@@ -93,6 +95,7 @@ namespace SpedizioniSPA.Models
         }
 
 
+        //Metodo che restituisce una List di Azienda  
         public static List<Azienda> GetListaAziende()
         {
             List<Azienda> listaAziende = new List<Azienda>();

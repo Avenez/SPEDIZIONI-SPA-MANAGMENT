@@ -16,7 +16,7 @@ namespace SpedizioniSPA.Controllers
             return View();
         }
 
-
+        //Recupero le liste di Privati e Aziende per popolare la select
         [HttpGet]
         public ActionResult CreateSpedizione()
         {
@@ -48,6 +48,7 @@ namespace SpedizioniSPA.Controllers
         }
 
 
+        //Inserisco una nuova Spedizione e un nuovo Aggiornamento e invio un feed all'utente
         [HttpPost]
         [ValidateAntiForgeryToken]
 

@@ -19,9 +19,14 @@ namespace SpedizioniSPA.Controllers
         }
 
 
+
+
+
         [HttpGet]
         public ActionResult Login() { return View(); }
 
+
+        //Metodo di login che controlla se lo username e la password siano presenti sul db in modo da fare l'autenticazione tramite FormsAuthentication.SetAuthCookie(U.Username, false);
         [HttpPost]
         public ActionResult Login([Bind(Exclude = "Ruolo, IdUser")] Utente U)
         {
@@ -63,7 +68,7 @@ namespace SpedizioniSPA.Controllers
 
 
 
-
+        //LogOut con FormsAuthentication.SignOut();
         public ActionResult Logout() 
         {
             FormsAuthentication.SignOut();

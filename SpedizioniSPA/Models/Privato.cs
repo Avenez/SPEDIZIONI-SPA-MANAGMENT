@@ -80,6 +80,7 @@ namespace SpedizioniSPA.Models
 
 
 
+        //Metodo che inserisce nel db un nuovo Privato
         public static void InserisciNuovoPrivato(Privato nuovoPrivato)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
@@ -112,12 +113,11 @@ namespace SpedizioniSPA.Models
         }
 
 
-        // Metodo per creare e restituire una lista di oggetti Privato
+        // Metodo per creare e restituire una list di oggetti Privato
         public static List<Privato> GetListaPrivati()
         {
             List<Privato> listaPrivati = new List<Privato>();
 
-            // Esempio di query per estrarre dati dal database e popolare la lista
             string queryString = "SELECT * FROM UPrivato";
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
 
@@ -128,7 +128,6 @@ namespace SpedizioniSPA.Models
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    // Costruire un oggetto Privato da ogni riga del database
                     Privato privato = new Privato();
                     privato.IdCliente = Convert.ToInt32(reader["IdCliente"]);
                     privato.Email = reader["Email"].ToString();
@@ -144,6 +143,7 @@ namespace SpedizioniSPA.Models
                 reader.Close();
             }
 
+            //Restituisco la List
             return listaPrivati;
         }
 

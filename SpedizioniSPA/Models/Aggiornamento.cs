@@ -75,7 +75,8 @@ namespace SpedizioniSPA.Models
 
 
 
-        // Metodo statico per inserire un nuovo aggiornamento nella tabella Aggiornamenti
+        // Metodo statico per inserire un nuovo aggiornamento nella tabella Aggiornamenti quando viene creata una nuova spedizione
+        //Questo presenta valori predefiniti in modo da inserire un aggiornamento di "Presa in carica dell'ordine"
         public static void InserisciNuovoAggiornamentoIniziale(int IdSpedizione)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
@@ -107,7 +108,8 @@ namespace SpedizioniSPA.Models
         }
 
 
-        // Metodo statico per recuperare una lista di tutti gli aggiornamenti dalla tabella Aggiornamenti
+        // Metodo statico per recuperare una lista di tutti gli aggiornamenti dalla tabella Aggiornamenti attraverso il numero di ordine
+        //Restituisce una List di Aggiornamento
         public static List<Aggiornamenti> GetListaAggiornamenti(int idSpedizione)
         {
             List<Aggiornamenti> listaAggiornamenti = new List<Aggiornamenti>();
@@ -118,7 +120,7 @@ namespace SpedizioniSPA.Models
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Aggiornamenti WHERE idSpedizione = @idSpedizione", conn);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Aggiornamenti WHERE idSpedizione = @idSpedizione ORDER BY Stato DESC", conn);
                 cmd.Parameters.AddWithValue("@idSpedizione", idSpedizione);
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -145,6 +147,7 @@ namespace SpedizioniSPA.Models
                 conn.Close();
             }
 
+            //Ritorno una List di Aggiornamento
             return listaAggiornamenti;
         }
 

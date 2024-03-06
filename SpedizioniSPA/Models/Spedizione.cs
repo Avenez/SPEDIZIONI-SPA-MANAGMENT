@@ -64,7 +64,7 @@ namespace SpedizioniSPA.Models
             IdDestinatario = idDestinatario;
         }
 
-
+        //Metodo per inserire una nuova Spedizione nel db
         public static void InserisciNuovaSpedizione(Spedizione S)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
@@ -97,6 +97,8 @@ namespace SpedizioniSPA.Models
         }
 
 
+        //Metodo che seleziona e restituisce l'id della spedizione in funzione dei campi della spedizione
+        //Viene usato in combinazione con la creazione di un nuovo Aggiornamento alla creazione di una spedizione per assegnare all'Aggiornamento lo stesso Id della Spedizione
         public static int GetIdSpedizione(Spedizione S)
         {
             int idSpedizione = 0;
@@ -139,7 +141,7 @@ namespace SpedizioniSPA.Models
 
 
 
-
+        //Metodo che crea ee restituisce una list di Spedizione
         public static List<Spedizione> GetListaSpedizioni()
         {
             List<Spedizione> listaSpedizioni = new List<Spedizione>();
@@ -182,9 +184,11 @@ namespace SpedizioniSPA.Models
         }
 
 
+        //Metodo che Restituisce il numero di spedizioni non ancora consegnate
         public static int GetNumSpedNonConsegnate()
         {
             int spedNonConsegnate = 0;
+            // Utilizzo di "using" per garantire la corretta gestione delle risorse e la chiusura automatica della connessione 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString()))
             {
                 try
@@ -202,7 +206,7 @@ namespace SpedizioniSPA.Models
                 }
                 catch (Exception ex)
                 {
-                    // Gestione dell'eccezione, ad esempio registrandola o lanciando un'eccezione personalizzata
+
                     Console.WriteLine("Si è verificato un errore durante il recupero del numero di spedizioni non consegnate: " + ex.Message);
                     throw;
                 }
@@ -211,7 +215,7 @@ namespace SpedizioniSPA.Models
             return spedNonConsegnate;
         }
 
-
+        //Metodo che restituisce una List di tuple per fornire il numero di spedizioni per città
         public static List<Tuple<string, int>> GetSpedizioniPerCitta()
         {
             List<Tuple<string, int>> spedizioniPerCittaList = new List<Tuple<string, int>>();
@@ -244,7 +248,7 @@ namespace SpedizioniSPA.Models
             return spedizioniPerCittaList;
         }
 
-
+        //Metodo che restituisce una list di spedizioni che sono categorizzate come "in consegna" unendo i dati dalla lista aggiornamenti
         public static List<Spedizione> GetSpedizioniInConsegna()
         {
             List<Spedizione> spedizioniList = new List<Spedizione>();
@@ -280,7 +284,7 @@ namespace SpedizioniSPA.Models
                 }
                 catch (Exception ex)
                 {
-                    // Gestione dell'eccezione, ad esempio registrandola o lanciando un'eccezione personalizzata
+                 
                     Console.WriteLine("Si è verificato un errore durante il recupero delle spedizioni in consegna: " + ex.Message);
                     throw;
                 }

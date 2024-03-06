@@ -39,6 +39,7 @@ namespace SpedizioniSPA.Models
         }
 
         //-----METODO PER LE AUTORIZZAZIONI----------
+        //Metodo per le autorizzazioni preso ugualmente ad esempi
         public override string[] GetRolesForUser(string username)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ConnectionString.ToString();
