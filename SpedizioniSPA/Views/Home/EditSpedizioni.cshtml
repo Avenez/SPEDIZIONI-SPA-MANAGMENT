@@ -28,7 +28,7 @@
                     <div class="col">@item.Costo €</div>
                     <div class="col">@item.DataConsegna.ToShortDateString()</div>
                     <div class="col">@item.CittaDestinazione</div>
-                    <div class="col">@Html.ActionLink("Aggiorna","EditStato","Stedizioni", new { area = "" } , new { @class = "btn btn-warning" }  )</div>
+                    <div class="col">@Html.ActionLink("Aggiorna Stato", "EditAggiornamento", "Aggiornamento", new { idSpedizione = item.IdSpedizione } , new { @class = "btn btn-warning" }  )</div>
                 </div>
             </div>
             

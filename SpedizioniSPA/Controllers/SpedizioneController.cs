@@ -58,7 +58,12 @@ namespace SpedizioniSPA.Controllers
                 if (ModelState.IsValid)
                 {
                     Spedizione.InserisciNuovaSpedizione(S);
+                    int idSpedizione = Spedizione.GetIdSpedizione(S);
+                    Aggiornamenti.InserisciNuovoAggiornamentoIniziale(idSpedizione);
+
                     System.Diagnostics.Debug.WriteLine(S);
+                    System.Diagnostics.Debug.WriteLine(idSpedizione);
+
                     Session["Inserimento"] = true;
                     Session["Messaggio"] = "Inserimento Spedizione avvenuto con Successo";
                     return RedirectToAction("Backoffice", "Home");
@@ -75,5 +80,11 @@ namespace SpedizioniSPA.Controllers
             }
 
         }
+
+
+        
+
+
+
     }
 }
