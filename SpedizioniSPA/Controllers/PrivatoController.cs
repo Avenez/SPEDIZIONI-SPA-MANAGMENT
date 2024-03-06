@@ -36,7 +36,7 @@ namespace SpedizioniSPA.Controllers
                     Privato.InserisciNuovoPrivato(P);
                     Session["Inserimento"] = true;
                     Session["Messaggio"] = "Inserimento Privato avvenuto con Successo";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Backoffice", "Home");
                 }
                 else
                 {

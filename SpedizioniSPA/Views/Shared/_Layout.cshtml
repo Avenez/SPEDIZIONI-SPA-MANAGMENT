@@ -22,9 +22,10 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="d-flex ms-2 na">@Html.ActionLink("Cerca Spedizione", "CercaSpedizione", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     @if (User.IsInRole("Admin"))
                     {
-                        
+
                         <li class="d-flex ms-2">@Html.ActionLink("BackOffice", "Backoffice", "Home", new { area = "" }, new { @class = "nav-link" })<i class="bi bi-building-fill nav-link ms-0"></i></li>
                     }
 

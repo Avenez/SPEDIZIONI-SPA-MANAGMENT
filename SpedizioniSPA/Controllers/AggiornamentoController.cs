@@ -41,9 +41,6 @@ namespace SpedizioniSPA.Controllers
                 {
                     Aggiornamenti.InserisciNuovoAggiornamento(A, idSpedizione);
 
-                    Session["Inserimento"] = true;
-                    Session["Messaggio"] = "Inserimento Aggiornamento avvenuto con Successo";
-
                     return RedirectToAction("EditAggiornamento", new { idSpedizione = idSpedizione });
 
                 }
