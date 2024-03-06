@@ -1,6 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "Statistics";
+    List<Tuple<string, int>> spedizioniPerCittaList = ViewBag.SpedizioniPerCittaList;
+    int numeroSped = ViewBag.consegneNonEffettuate;
+    List<SpedizioniSPA.Models.Spedizione> SpedizioniInConsegna = ViewBag.SpedizioniInConsegna;
+
 }
 
 <div class="container text-white">
@@ -8,14 +12,14 @@
     <div class="row">
         <div class="col p-5">
             <h2 class="display-6">In attesa di consegna</h2>
-            <h1 class="display-1">5</h1>
+            <h1 class="display-1">@numeroSped</h1>
         </div>
         <div class="col p-5">
             <h2 class="display-6">Statistiche Spedizioni</h2>
 
-            <div class="row">
+            <div class="row ">
                 <div class="col">
-                    <div class="row">
+                    <div class="row p-3">
                         <div class="col">
                             Città
                         </div>
@@ -23,26 +27,18 @@
                             Numero di Spedizioni
                         </div>
                     </div>
-
+                    @foreach (var item in spedizioniPerCittaList)
+                    { 
                     <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd ">
                         <div class="col">
-                            Salerno
+                            @item.Item1
                         </div>
                         <div class="col">
-                            5
+                            @item.Item2
                         </div>
+                    </div>      
+                    }
                     </div>
-
-                    <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
-                        <div class="col">
-                            Monza
-                        </div>
-                        <div class="col">
-                            3
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
         </div>
@@ -62,22 +58,22 @@
                         <div class="col">Controlli</div>
                     </div>
 
-                    @*@foreach (var item in ListaSpedizioni)
-                    {
+                    @foreach (var item in SpedizioniInConsegna)
+        {
 
-                        <div class="cardHover">
-                            <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
-                                <div class="col ">@item.IdSpedizione</div>
-                                <div class="col">@item.DataSpedizione.ToShortDateString()</div>
-                                <div class="col">@item.Peso kg</div>
-                                <div class="col">@item.Costo €</div>
-                                <div class="col">@item.DataConsegna.ToShortDateString()</div>
-                                <div class="col">@item.CittaDestinazione</div>
-                                <div class="col">@Html.ActionLink("Aggiorna Stato", "EditAggiornamento", "Aggiornamento", new { idSpedizione = item.IdSpedizione }, new { @class = "btn btn-warning" })</div>
-                            </div>
-                        </div>
+            <div class="cardHover">
+                <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
+                    <div class="col ">@item.IdSpedizione</div>
+                    <div class="col">@item.DataSpedizione.ToShortDateString()</div>
+                    <div class="col">@item.Peso kg</div>
+                    <div class="col">@item.Costo €</div>
+                    <div class="col">@item.DataConsegna.ToShortDateString()</div>
+                    <div class="col">@item.CittaDestinazione</div>
+                    <div class="col">@Html.ActionLink("Aggiorna Stato", "EditAggiornamento", "Aggiornamento", new { idSpedizione = item.IdSpedizione }, new { @class = "btn btn-warning" })</div>
+                </div>
+            </div>
 
-                    }*@
+        }
 
 
 

@@ -182,36 +182,111 @@ namespace SpedizioniSPA.Models
         }
 
 
-        public int GetNumSpedNonConsegnate() 
+        public static int GetNumSpedNonConsegnate()
         {
-            int spedNonCOnsegnate = 0;
-            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
-            SqlConnection conn = new SqlConnection(connectionString);
-
-            try
+            int spedNonConsegnate = 0;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString()))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT COUNT(*) AS NonConsegnate FROM Spedizione2 WHERE dataConsegna <= {DateTime.Now.ToShortDateString()}", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                try
                 {
-                    spedNonCOnsegnate = (int)reader["NonConsegnate"];
+                    conn.Open();
+                    string query = "SELECT COUNT(*) AS NonConsegnate FROM Spedizione2 WHERE dataConsegna <= @CurrentDate";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@CurrentDate", DateTime.Now.ToShortDateString());
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        spedNonConsegnate = (int)reader["NonConsegnate"];
+                    }
                 }
-
-                reader.Close();
+                catch (Exception ex)
+                {
+                    // Gestione dell'eccezione, ad esempio registrandola o lanciando un'eccezione personalizzata
+                    Console.WriteLine("Si è verificato un errore durante il recupero del numero di spedizioni non consegnate: " + ex.Message);
+                    throw;
+                }
             }
-            catch (Exception ex)
+
+            return spedNonConsegnate;
+        }
+
+
+        public static List<Tuple<string, int>> GetSpedizioniPerCitta()
+        {
+            List<Tuple<string, int>> spedizioniPerCittaList = new List<Tuple<string, int>>();
+
+            // Utilizzo di "using" per garantire la corretta gestione delle risorse e la chiusura automatica della connessione
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString()))
             {
-                Console.WriteLine(ex);
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT cittaDestinazione, COUNT(cittaDestinazione) AS SpedXCitta FROM Spedizione2 GROUP BY cittaDestinazione";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string cittaDestinazione = reader["cittaDestinazione"].ToString();
+                        int spedXCitta = Convert.ToInt32(reader["SpedXCitta"]);
+
+                        spedizioniPerCittaList.Add(new Tuple<string, int>(cittaDestinazione, spedXCitta));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Si è verificato un errore durante il recupero delle spedizioni per città: " + ex.Message);
+                    throw;
+                }
             }
-            finally
+
+            return spedizioniPerCittaList;
+        }
+
+
+        public static List<Spedizione> GetSpedizioniInConsegna()
+        {
+            List<Spedizione> spedizioniList = new List<Spedizione>();
+
+            // Utilizzo di "using" per garantire la corretta gestione delle risorse e la chiusura automatica della connessione
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString()))
             {
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    string query = @"SELECT Spedizione2.idSpedizione, dataSpedizione, peso, costo, dataConsegna, cittaDestinazione, idDestinatario  
+                                 FROM Spedizione2 
+                                 INNER JOIN Aggiornamenti ON Spedizione2.idSpedizione = Aggiornamenti.idSpedizione 
+                                 WHERE Aggiornamenti.Stato = '3 - In Consegna'";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Spedizione spedizione = new Spedizione
+                        {
+                            IdSpedizione = Convert.ToInt32(reader["idSpedizione"]),
+                            DataSpedizione = Convert.ToDateTime(reader["dataSpedizione"]),
+                            Peso = Convert.ToDecimal(reader["peso"]),
+                            Costo = Convert.ToDecimal(reader["costo"]),
+                            DataConsegna = Convert.ToDateTime(reader["dataConsegna"]),
+                            CittaDestinazione = reader["cittaDestinazione"].ToString(),
+                            IdDestinatario = Convert.ToInt32(reader["idDestinatario"])
+                        };
+
+                        spedizioniList.Add(spedizione);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Gestione dell'eccezione, ad esempio registrandola o lanciando un'eccezione personalizzata
+                    Console.WriteLine("Si è verificato un errore durante il recupero delle spedizioni in consegna: " + ex.Message);
+                    throw;
+                }
             }
 
-
-            return spedNonCOnsegnate;
+            return spedizioniList;
         }
     }
 

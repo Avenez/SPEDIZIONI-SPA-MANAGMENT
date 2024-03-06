@@ -115,10 +115,20 @@ namespace SpedizioniSPA.Controllers
 
         [Authorize(Roles = "Admin")]
         public ActionResult Statistics() 
-        { 
+        {
+
+            int consegneNonEffettuate = Spedizione.GetNumSpedNonConsegnate();
+            ViewBag.consegneNonEffettuate = consegneNonEffettuate;
+
+            List<Tuple<string, int>> spedizioniPerCittaList = Spedizione.GetSpedizioniPerCitta();
+            ViewBag.SpedizioniPerCittaList = spedizioniPerCittaList;
+
+            List<Spedizione>SpedizioniInConsegna = Spedizione.GetSpedizioniInConsegna();
+            ViewBag.SpedizioniInConsegna = SpedizioniInConsegna;
 
 
-        return View();
+
+            return View();
         }
 
     }
