@@ -35,8 +35,7 @@ namespace SpedizioniSPA.Controllers
         [HttpPost]
         public ActionResult EditAggiornamento(Aggiornamenti A, int idSpedizione)
         {
-            try
-            {
+
                 if (ModelState.IsValid)
                 {
                     Aggiornamenti.InserisciNuovoAggiornamento(A, idSpedizione);
@@ -48,11 +47,7 @@ namespace SpedizioniSPA.Controllers
                 {
                     return View(A);
                 }
-            }
-            catch
-            {
-                return View();
-            }
+
 
         }
 

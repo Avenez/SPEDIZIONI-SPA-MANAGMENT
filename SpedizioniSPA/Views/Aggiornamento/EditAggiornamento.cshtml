@@ -77,21 +77,26 @@
                 <div class="col">Descrizione</div>
                 <div class="col">Aggiornamento</div>
             </div>
-
-            @foreach (var item in ListAggiornamenti)
+            @if (ListAggiornamenti != null && ListAggiornamenti.Any())
             {
+                foreach (var item in ListAggiornamenti)
+                {
 
-                <div class="cardHover">
-                    <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
-                        <div class="col ">@item.idSpedizione</div>
-                        <div class="col">@item.Stato</div>
-                        <div class="col">@item.Posizione</div>
-                        <div class="col">@item.Descrizione</div>
-                        <div class="col">@item.Aggiornamento</div>
+                    <div class="cardHover">
+                        <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
+                            <div class="col ">@item.idSpedizione</div>
+                            <div class="col">@item.Stato</div>
+                            <div class="col">@item.Posizione</div>
+                            <div class="col">@item.Descrizione</div>
+                            <div class="col">@item.Aggiornamento</div>
+                        </div>
                     </div>
-                </div>
+
+                }
+
 
             }
+
 
 
 

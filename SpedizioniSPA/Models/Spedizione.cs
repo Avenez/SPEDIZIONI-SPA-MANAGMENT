@@ -181,6 +181,38 @@ namespace SpedizioniSPA.Models
             return listaSpedizioni;
         }
 
+
+        public int GetNumSpedNonConsegnate() 
+        {
+            int spedNonCOnsegnate = 0;
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT COUNT(*) AS NonConsegnate FROM Spedizione2 WHERE dataConsegna <= {DateTime.Now.ToShortDateString()}", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    spedNonCOnsegnate = (int)reader["NonConsegnate"];
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+
+            return spedNonCOnsegnate;
+        }
     }
 
 }

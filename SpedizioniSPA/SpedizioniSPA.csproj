@@ -166,6 +166,7 @@
     <Content Include="Images\ABOUT.jpg" />
     <Content Include="Images\azienda.jpg" />
     <Content Include="Images\Azienda2.jpg" />
+    <Content Include="Images\BGSTATISTICS.jpg" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\cursorseingle.png" />
     <Content Include="Images\logo2.png" />
@@ -209,6 +210,8 @@
     <Content Include="Views\Spedizione\CreateSpedizione.cshtml" />
     <Content Include="Views\Home\EditSpedizioni.cshtml" />
     <Content Include="Views\Aggiornamento\EditAggiornamento.cshtml" />
+    <Content Include="Views\Home\CercaSpedizione.cshtml" />
+    <Content Include="Views\Home\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

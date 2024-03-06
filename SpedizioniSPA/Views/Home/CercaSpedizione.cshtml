@@ -1,0 +1,77 @@
+﻿@model SpedizioniSPA.Models.Aggiornamenti
+
+@{
+    ViewBag.Title = "CercaSpedizione";
+    List<SpedizioniSPA.Models.Aggiornamenti> ListAggiornamentiSrc = ViewBag.ListAggiornamentiSrc;
+    int idSpedizione = 0; // Inizializza l'ID di spedizione a 0 per impostazione predefinita
+
+    // Verifica se TempData contiene "SrcData" e se il suo valore non è null
+    if (TempData["SrcData"] != null)
+    {
+        idSpedizione = (int)TempData["SrcData"];
+    }
+}
+
+<h2 class="display-5 text-white">Cerca il tuo ordine</h2>
+<hr />
+
+@using (Html.BeginForm("CercaSpedizione", "Home", FormMethod.Post))
+{
+    <div class="d-flex">
+        <input class="me-3" type="number" name="idSpedizione" placeholder="Enter ID" required />
+        <input class="btn btn-warning" type="submit" value="Cerca Spedizione" />
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @if (idSpedizione == 0)
+            {
+                <div class="row mt-5">
+                    <div class="col">
+                        <h3 class="display-6 text-white">Inserisci il codice spedizione per ottenere gli aggiornamenti</h3>
+                    </div>
+                </div>
+            }
+            else if (ListAggiornamentiSrc != null && ListAggiornamentiSrc.Any()) // Verifica se la lista degli aggiornamenti non è vuota
+            {
+                <div class="row mt-2 mb-3 fw-bold text-white p-3 position-sticky">
+                    <div class="col">Id Spedizione</div>
+                    <div class="col">Stato</div>
+                    <div class="col">Posizione</div>
+                    <div class="col">Descrizione</div>
+                    <div class="col">Aggiornamento</div>
+                </div>
+
+                foreach (var item in ListAggiornamentiSrc)
+                {
+                    <div class="cardHover">
+                        <div class="row fw-bold p-3 text-white glass mb-3 cursor swing-in-top-fwd">
+                            <div class="col">@item.idSpedizione</div>
+                            <div class="col">@item.Stato</div>
+                            <div class="col">@item.Posizione</div>
+                            <div class="col">@item.Descrizione</div>
+                            <div class="col">@item.Aggiornamento</div>
+                        </div>
+                    </div>
+                }
+            }
+            else // Se la lista degli aggiornamenti è vuota
+            {
+                <div class="row mt-5">
+                    <div class="col">
+                        <h3 class="display-6 text-white">Nessun aggiornamento trovato per la spedizione con ID: @idSpedizione</h3>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

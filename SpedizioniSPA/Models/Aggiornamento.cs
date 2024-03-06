@@ -13,12 +13,15 @@ namespace SpedizioniSPA.Models
         [ScaffoldColumn(false)]
         public int idSpedizione { get; set; }
 
+        [Required]
         [Display(Name = "Stato della Spedizione")]
         public string Stato { get; set; }
 
+        [Required]
         [Display(Name = "Posizione della spedizione")]
         public string Posizione { get; set; }
 
+        [Required]
         [Display(Name = "Descrizione dello stato")]
         public string Descrizione { get; set; }
 
