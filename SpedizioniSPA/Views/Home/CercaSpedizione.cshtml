@@ -18,9 +18,11 @@
 @using (Html.BeginForm("CercaSpedizione", "Home", FormMethod.Post))
 {
     <div class="d-flex">
-        <input class="me-3" type="number" name="idSpedizione" placeholder="Enter ID" required />
+        <input class="me-3" type="number" name="idSpedizione" placeholder="Inserisci ID Spedizione" required />
+        <input class="me-3" type="text" name="idCliente" placeholder="Inserisci CF o PIVA" required />
         <input class="btn btn-warning" type="submit" value="Cerca Spedizione" />
     </div>
+
 }
 
 <div class="container">

@@ -23,11 +23,7 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="d-flex ms-2 na">@Html.ActionLink("Cerca Spedizione", "CercaSpedizione", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    @if (User.IsInRole("Admin"))
-                    {
 
-                        <li class="d-flex ms-2">@Html.ActionLink("BackOffice", "Backoffice", "Home", new { area = "" }, new { @class = "nav-link" })<i class="bi bi-building-fill nav-link ms-0"></i></li>
-                    }
 
                     @if (Request.Cookies[".ASPXAUTH"] != null)
                     {
@@ -37,11 +33,14 @@
                     {
                         <li class="ms-auto d-flex"><i class="bi bi-box-arrow-in-right nav-link ms-0"></i>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
                     }
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <li class="d-flex ms-2">@Html.ActionLink("BackOffice", "Backoffice", "Home", new { area = "" }, new { @class = "nav-link" })<i class="bi bi-building-fill nav-link ms-0"></i></li>
+                    }
 
 
-                    @*<li>@Html.ActionLink("Privato +", "CreatePrivato", "Privato", new { area = "" }, new { @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Azienda +", "CreateAzienda", "Azienda", new { area = "" }, new { @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Spedizione +", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
+          
 
 
                 </ul>

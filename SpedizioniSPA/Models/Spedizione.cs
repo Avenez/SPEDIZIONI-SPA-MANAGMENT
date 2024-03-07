@@ -292,6 +292,51 @@ namespace SpedizioniSPA.Models
 
             return spedizioniList;
         }
+
+
+        public static bool GetSrcSpedizioni(int idSpedizione, string idCliente)
+        {
+            bool find = false;
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStringDb"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"SELECT Spedizione2.idSpedizione, " +
+                                    @"CASE WHEN UAzienda.IdCliente IS NOT NULL THEN UAzienda.PIVA ELSE UPrivato.CF END AS TaxID " +
+                                    @"FROM Spedizione2 " +
+                                    @"LEFT JOIN UAzienda ON Spedizione2.idDestinatario = UAzienda.IdCliente " +
+                                    @"LEFT JOIN UPrivato ON Spedizione2.idDestinatario = UPrivato.IdCliente " +
+                                    @"WHERE Spedizione2.idSpedizione = @idSpedizione AND (UAzienda.PIVA = @idCliente OR UPrivato.CF = @idCliente)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idSpedizione", idSpedizione);
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Trovato match");
+                                find = true;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception details for troubleshooting
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+
+            return find;
+        }
+
     }
 
 }
