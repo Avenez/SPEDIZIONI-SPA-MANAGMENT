@@ -11,6 +11,7 @@ namespace SpedizioniSPA.Controllers
     //[AllowAnonymous]
     public class SpedizioneController : Controller
     {
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
@@ -18,6 +19,7 @@ namespace SpedizioniSPA.Controllers
 
         //Recupero le liste di Privati e Aziende per popolare la select
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSpedizione()
         {
             try 
@@ -51,7 +53,7 @@ namespace SpedizioniSPA.Controllers
         //Inserisco una nuova Spedizione e un nuovo Aggiornamento e invio un feed all'utente
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSpedizione(Spedizione S)
         {
             try 
